@@ -9,7 +9,7 @@ public class Main {
         String skill = input.nextLine();
         
         GameCharacter player = new GameCharacter(name, skill);
-        player.assignStats();
+        player.assignStats(32);
 
         GameWorld world = worldInitializer();
         
@@ -40,7 +40,7 @@ public class Main {
         }
         if (travel.equals(world.getCapitalCity())) {
             System.out.println("\nYou decide to hit the road for " + world.getCapitalCity() + ". As you walk down the path, a few people stare at you, clearly unsure of where you came from, but none of them talk to you.");
-            System.out.println("As you're about halfway to the capital, you see something hidden in a bush. You walk over to find its a metal chestplate. It looks heavy, but it could be useful if you got into a fight for whatever reason. Take it? (y/n)");
+            System.out.println("As you're about halfway to the capital, you see something hidden in a bush. You walk over to find its a metal chestplate. It looks quite heavy, but it could be useful if you ever got into a fight. Take it? (y/n)");
             String takeArmor = input.nextLine();
             if (!takeArmor.toLowerCase().equals("y") && !takeArmor.toLowerCase().equals("n")) {
                 System.out.println("Invalid option!");
@@ -50,12 +50,13 @@ public class Main {
                 }
             }
             if (takeArmor.toLowerCase().equals("y")) {
+                Item chestplate = new Armor("Old Iron Chestplate", "A thick metal chestplate that looks like it's seen better days.", 32.0, 6)
                 if (player.getStrength() < 5) {
                     System.out.println("You try to lift it up, but it's too heavy; it won't budge. You sigh and continue walking.");
                 }
                 else {
                     System.out.println("You put on the chestplate. It's heavy, and slows you down, but will definitely be effective protection-wise.");
-                    player.addToInventory("Chestplate");
+                    player.addToInventory(chestplate);
                     player.setSpeed(player.getSpeed() - 1);
                     System.out.println("Chestplate was added to your inventory. Your speed was reduced by 1.");
                     System.out.println("Current inventory:");
