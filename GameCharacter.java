@@ -20,10 +20,9 @@ public class GameCharacter {
     private int charisma = 1;
     private int stealth = 1;
     private int intelligence = 1;
-    private int totalPoints = 32;
     private double totalExp;
     private int level;
-    private ArrayList<String> inventory = new ArrayList<String>();
+    private ArrayList<Item> inventory = new ArrayList<Item>();
     
     public GameCharacter(String name, String skill) {
         this.name = name;
@@ -35,7 +34,7 @@ public class GameCharacter {
         this("Unknown", "Shyness");
     }
     
-    public void assignStats() {
+    public void assignStats(int totalPoints) {
         Scanner in = new Scanner(System.in);
         while (totalPoints > 0) {
             System.out.println("Your stats are all 1 by default. You have " + totalPoints + " points left to assign.");
@@ -183,7 +182,7 @@ public class GameCharacter {
         this.intelligence = intelligence;
     }
     
-    public void addToInventory(String item) {
+    public void addToInventory(Item item) {
         inventory.add(item);
     }
     
@@ -203,6 +202,17 @@ public class GameCharacter {
         for (int i = 0; i < inventory.size(); i++) {
             System.out.println("Inventory slot " + i + ": " + inventory.get(i));
         }
+    }
+
+    public boolean skillCheck(String skillType, int threshold) {
+        int advantage = 0;
+        if (skillType.toLowerCase().equals("strength")) {
+            if (this.strength > 6) {
+                advantage = 2;
+            }
+            int roll = (int) (Math.random)
+        }
+        return false;
     }
     
 }
