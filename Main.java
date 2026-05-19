@@ -38,6 +38,7 @@ public class Main {
                 travel = input.nextLine();
             }
         }
+        player.tick();
         if (travel.equals(world.getCapitalCity())) {
             System.out.println("\nYou decide to hit the road for " + world.getCapitalCity() + ". As you walk down the path, a few people stare at you, clearly unsure of where you came from, but none of them talk to you.");
             System.out.println("As you're about halfway to the capital, you see something hidden in a bush. You walk over to find its a metal chestplate. It looks quite heavy, but it could be useful if you ever got into a fight. Take it? (y/n)");
@@ -49,16 +50,18 @@ public class Main {
                     takeArmor = input.nextLine();
                 }
             }
+            player.tick();
             if (takeArmor.toLowerCase().equals("y")) {
-                Item chestplate = new Armor("Old Iron Chestplate", "A thick metal chestplate that looks like it's seen better days.", 32.0, 6)
-                if (player.getStrength() < 5) {
+                boolean armorCheck = player.skillCheck("Strength", 9);
+                Item chestplate = new Armor("Old Iron Chestplate", "A thick metal chestplate that looks like it's seen better days.", 32.0, 6);
+                if (!armorCheck) {
                     System.out.println("You try to lift it up, but it's too heavy; it won't budge. You sigh and continue walking.");
                 }
                 else {
                     System.out.println("You put on the chestplate. It's heavy, and slows you down, but will definitely be effective protection-wise.");
                     player.addToInventory(chestplate);
-                    player.setSpeed(player.getSpeed() - 1);
-                    System.out.println("Chestplate was added to your inventory. Your speed was reduced by 1.");
+                    player.setDexterity(player.getDexterity() - 1);
+                    System.out.println("Chestplate was added to your inventory. Your Dexterity was reduced by 1.");
                     System.out.println("Current inventory:");
                     player.getInventory();
                 }
@@ -76,6 +79,7 @@ public class Main {
                     stop = input.nextLine();
                 }
             }
+            player.tick();
             if (stop.toLowerCase().equals("market")) {
                 System.out.println("You decide to stop for food at the market. You walk up to one of the stands, where a burly man stands. \"Welcome. If you're looking for meat, I got it. Anything else is not my forte.\" he states.");
                 System.out.println("You're torn between purchasing grilled chicken or steak. Which do you purchase? (type \"chicken\" or \"steak\": ");
@@ -86,6 +90,7 @@ public class Main {
                         System.out.println("Chicken or steak?");
                         food = input.nextLine();
                     }
+                    player.tick();
                 }
                 if (food.toLowerCase().equals("chicken")) {
                     System.out.println("\"Good choice.\" the shopkeeper says. After you hand him 5 credits, he hands you a large, cooked chicken breast on a plate. \"Enjoy.\"");
@@ -113,12 +118,14 @@ public class Main {
             System.out.println("\"Welcome in,\" he says. \"Haven't seen you around before. You new in town?\" he asks. You nod. \"Figures. Well, anyway, what can I get ya? We got fruits, veggies, soup, water, and anything else you could need.\"");
             System.out.println("Fruits and soup both sound really appetizing at the moment. Which would you like to buy? (type \"fruit\" or \"soup\") ");
             String food = input.nextLine();
+            player.tick();
             if (!food.toLowerCase().equals("fruit") && !food.toLowerCase().equals("soup")) {
                 System.out.println("Invalid input!");
                 while (!food.toLowerCase().equals("fruit") && !food.toLowerCase().equals("soup")) {
                     System.out.println("Fruit or soup?");
                     food = input.nextLine();
                 }
+                player.tick();
             }
             if (food.toLowerCase().equals("fruit")) {
                 System.out.println("\"Good choice.\" the shopkeeper says. \"We got the freshest fruit in all " + world.getRegionName() +  ".\" he says. \"That'll be five credits.\"");
