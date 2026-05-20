@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.lang.Class;
 
 /** 
     GameCharacter - your in-game character, with stats, name, etc
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 public class GameCharacter {
     private String name;
     private String skill;
-    private final double health = 100;
+    private double health = 16;
     private int strength = 8;
     private int dexterity = 8;
     private int constitution = 8;
@@ -37,6 +38,17 @@ public class GameCharacter {
     
     public GameCharacter() {
         this("Unknown", "Shyness");
+    }
+
+    public GameCharacter(String name, String skill, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+        this.name = name;
+        this.skill = skill;
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.constitution = constitution;
+        this.intelligence = intelligence;
+        this.wisdom = wisdom;
+        this.charisma = charisma;
     }
     
     public void assignStats(int totalPoints) {
@@ -145,6 +157,7 @@ public class GameCharacter {
         stats.update("intelligence", (Integer)this.intelligence);
         stats.update("wisdom", (Integer)this.wisdom);
         stats.update("charisma", (Integer)this.charisma);
+        health = constitution * 2;
         System.out.println("Stats saved.");
         System.out.println("Character information: \n" + this.toString());
     }
@@ -226,13 +239,23 @@ public class GameCharacter {
     
     // Precondition: the inventory actually has something in it.
     public void getInventory() {
+        System.out.println("\nCurrent inventory: ");
         for (int i = 0; i < inventory.size(); i++) {
             System.out.println("Inventory slot " + i + ": " + inventory.get(i));
         }
+        System.out.println();
     }
 
     public void equip(Item item) {
         if (inventory.indexOf(item) != -1) {
+            if (item.getClass().toString().equals("weapon")) {
+                for (Item i : equippedItems) {
+                    if (i.getClass().toString().toLowerCase().equals("weapon")) {     
+                        System.out.println("You cannot have more than one weapon equipped!");
+                        return;
+                    }
+                }
+            } 
             equippedItems.add(item);
             inventory.remove(inventory.indexOf(item));
             System.out.println(item + " has been equipped.");
@@ -253,14 +276,18 @@ public class GameCharacter {
     public boolean skillCheck(String skillType, int threshold) {
         int advantage = stats.getAdvantage(skillType.toLowerCase());
         int roll = (int) (Math.random() * 20) + 1;
+        System.out.println();
         System.out.println("***" + skillType.toUpperCase() + " CHECK***");
+        System.out.println("You must roll a " + threshold + " to succeed. Your strength stat is " + this.strength + ", which gives you an advantage of " + advantage + ".");
         System.out.println("You rolled: " + roll);
         System.out.println("With advantage: " + (roll + advantage));
         if ((roll + advantage) >= threshold) {
             System.out.println(skillType + " check succeeded!");
+            System.out.println();
             return true;   
         }
         System.out.println(skillType + " check failed.");
+        System.out.println();
         return false;
     }
 
@@ -272,8 +299,26 @@ public class GameCharacter {
             if (expired) {
                 System.out.println("Your " + c + " has expired. Its effect has been removed.");
                 stats.update(c.getStat(), stats.getStat(c.getStat()) - c.getBoost());
+                activeConsumables.remove(i);
+                i--;
             }
         }
     }
 
+    public void damage(int amount) {
+        this.health -= amount;
+        System.out.println("\n" + this.name + "took " + amount + " damage!\n");
+    }
+
+    public void attack(GameCharacter other) {
+        int damage = 0;
+        damage = this.strength / 3;
+        for (int i = 0; i < this.equippedItems.size(); i++) {
+            if (this.equippedItems.get(i) instanceof Weapon) {
+                Weapon weapon = (Weapon)equippedItems.get(i);
+                damage += weapon.getDamage();
+            }
+        }
+       other.damage(damage);
+    }
 }

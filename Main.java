@@ -1,5 +1,10 @@
 import java.util.Scanner;
-
+/*
+TO DO:
+Add leveling/experience system
+Extend story
+Add combat system
+*/
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -9,13 +14,12 @@ public class Main {
         String skill = input.nextLine();
         
         GameCharacter player = new GameCharacter(name, skill);
-        player.assignStats(32);
+        player.assignStats(27);
 
         GameWorld world = worldInitializer();
         
         
         Object[] objects = {player, world}; // holds objects in an object array
-        
         
         for (int i = 0; i < objects.length; i++) { // Iterate through object array 
             System.out.println("\nThis is being displayed from a for loop which is iterating through my object array containing my GameWorld and GameCharacter.:\n" + objects[i].toString());
@@ -62,7 +66,6 @@ public class Main {
                     player.addToInventory(chestplate);
                     player.setDexterity(player.getDexterity() - 1);
                     System.out.println("Chestplate was added to your inventory. Your Dexterity was reduced by 1.");
-                    System.out.println("Current inventory:");
                     player.getInventory();
                 }
             }
@@ -70,7 +73,7 @@ public class Main {
                 System.out.println("You decide to continue on without the armor.");
             }
             System.out.println("Soon enough, you've made it to " + world.getCapitalCity() + "! This place is bustling compared to where you came from, with horses and people filling the street. \nMarkets and stands sit on the side of the road, selling fruits, supplies, and a variety of other things.");
-            System.out.println("You're starting to feel pretty hungry. Do you stop at the market and buy food, or keep moving (type \"market\" or \"continue\"?");
+            System.out.println("You're starting to feel pretty hungry. Do you stop at the market and buy food, or keep moving (type \"market\" or \"continue\")?");
             String stop = input.nextLine();
             if (!stop.toLowerCase().equals("market") && !stop.toLowerCase().equals("continue")) {
                 System.out.println("Invalid choice!");
@@ -82,7 +85,7 @@ public class Main {
             player.tick();
             if (stop.toLowerCase().equals("market")) {
                 System.out.println("You decide to stop for food at the market. You walk up to one of the stands, where a burly man stands. \"Welcome. If you're looking for meat, I got it. Anything else is not my forte.\" he states.");
-                System.out.println("You're torn between purchasing grilled chicken or steak. Which do you purchase? (type \"chicken\" or \"steak\": ");
+                System.out.println("You're torn between purchasing grilled chicken or steak. Which do you purchase? (type \"chicken\" or \"steak\"): ");
                 String food = input.nextLine();
                 if (!food.toLowerCase().equals("chicken") && !food.toLowerCase().equals("steak")) {
                     System.out.println("Invalid choice!");
@@ -109,7 +112,37 @@ public class Main {
             System.out.println("You hand him the 10 credits, and he takes a piece of paper and a key from a drawer, handing them to you. \"That's your room. Have a good night.\"");
             System.out.println("You nod, walking up to your room. The room is nice enough, and you flop down on the bed, exhausted from the day.");
             System.out.println("You fall asleep within minutes, your exhaustion quickly overtaking you.");
-            System.out.println("The end... or is it?");
+            System.out.println("\nDAY 1 COMPLETE!");
+            System.out.println();
+            System.out.println("You wake up with a start. A strange dream had come to you in the night, of fires and destruction. You shook your head. It was just a dream.");
+            System.out.println("Sunlight was streaming in through the window. You peeked outside, looking at the hustle and bustle of the city waking up.");
+            System.out.println("You look over at the old wooden door to your room, noticing a piece of paper that had been slipped underneath.");
+            System.out.println("It reads: \"Thank you for staying at the Trusty Horse motel. Please visit the front desk to check out when convenient.\"");
+            System.out.println("You sigh, tossing the paper to the side. You pack up the few things you'd taken out of your pockets before going to bed, and exit the room.");
+            System.out.println("After checking out, you step outside, the chilly morning air blowing over you.");
+            System.out.println("Almost immediately, though, you notice the sound of a commotion nearby. You look around and spot the source of the noise.");
+            System.out.println("A large man was beating up a smaller one, who was trying and failing to shield himself as he laid helpless on the ground.");
+            System.out.println("You want to help, but you are a bit conflicted. Do you step in and (F)ight, or do you mind your own business and (L)eave?");
+            String fight = input.nextLine();
+            player.tick();
+
+            if (fight.toLowerCase() == "f") {
+                GameCharacter enemy = new GameCharacter("Grunt", "Arrogance", 14, 8, 13, 6, 5, 5);
+                System.out.println("You decide that you can't stand by and watch this happen. You walk over, and shove the larger man. He looks at you, rage in his eyes.");
+                System.out.println("\"I would recommend you stay out of this, boy.\" he growled. He pulled his fist back, ready to hit you. Do you try to (B)lock the attack, or do you try to (D)odge?");
+                String move1 = input.nextLine();
+                if (move1.toLowerCase() == "b") {
+
+                    player.skillCheck("constitution", 11);
+
+                }
+
+            }
+
+            else if (fight.toLowerCase() == "l") {
+
+            }
+
         }
         else if (travel.equals(world.getSmallTown())) {
             System.out.println("\nYou decide to stay in the town. You exit the tavern, and look around outside. A few passerbys look at you curiously, but none speak to you.");
