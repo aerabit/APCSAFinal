@@ -15,14 +15,14 @@ import java.lang.Class;
 public class GameCharacter {
     private String name;
     private String skill;
-    private double health = 16;
+    private int health = 16;
     private int strength = 8;
     private int dexterity = 8;
     private int constitution = 8;
     private int intelligence = 8;
     private int wisdom = 8;
     private int charisma = 8;
-    private double totalExp;
+    private int totalExp;
     private int level;
     private int numTurns;
     private ArrayList<Item> inventory = new ArrayList<Item>();
@@ -34,10 +34,12 @@ public class GameCharacter {
         this.name = name;
         this.skill = skill;
         this.totalExp = 0;
+        this.level = 1;
     }
     
     public GameCharacter() {
         this("Unknown", "Shyness");
+        this.level = 1;
     }
 
     public GameCharacter(String name, String skill, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
@@ -49,107 +51,146 @@ public class GameCharacter {
         this.intelligence = intelligence;
         this.wisdom = wisdom;
         this.charisma = charisma;
+        this.level = 1;
     }
     
     public void assignStats(int totalPoints) {
         Scanner in = new Scanner(System.in);
         while (totalPoints > 0) {
+
             System.out.println("Your stats are all 8 by default. You have " + totalPoints + " points left to assign.");
             System.out.println("How many additional Strength points would you like to assign your character? ");
             int strength = in.nextInt();
-            if (totalPoints - strength < 0) {
-                System.out.println("You can't assign that many points!");
-                strength = in.nextInt();
+
+            if (totalPoints - strength < 0 || this.strength + strength > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - strength < 0 || this.strength + strength > 20) {
+                    strength = in.nextInt();
+                }
                 this.strength += strength;
                 totalPoints -= strength;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.strength += strength;
                 totalPoints -= strength;
             }
+
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Dexterity points would you like to assign your character? ");
+
             int dexterity = in.nextInt();
-            if (totalPoints - dexterity < 0) {
-                System.out.println("You can't assign that many points!");
-                dexterity = in.nextInt();
+
+           if (totalPoints - dexterity < 0 || this.dexterity + dexterity > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - dexterity < 0 || this.dexterity + dexterity > 20) {
+                    dexterity = in.nextInt();
+                }
                 this.dexterity += dexterity;
                 totalPoints -= dexterity;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.dexterity += dexterity;
                 totalPoints -= dexterity;
             }
+
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Constitution points would you like to assign your character? ");
             int constitution = in.nextInt();
-            if (totalPoints - constitution < 0) {
-                System.out.println("You can't assign that many points!");
-                constitution = in.nextInt();
+
+            if (totalPoints - constitution < 0 || this.constitution + constitution > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - constitution < 0 || this.constitution + constitution > 20) {
+                    constitution = in.nextInt();
+                }
                 this.constitution += constitution;
                 totalPoints -= constitution;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.constitution += constitution;
                 totalPoints -= constitution;
             }
+
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Intelligence points would you like to assign your character? ");
             int intelligence = in.nextInt();
-            if (totalPoints - intelligence < 0) {
-                System.out.println("You can't assign that many points!");
-                intelligence = in.nextInt();
+
+            if (totalPoints - intelligence < 0 || this.intelligence + intelligence > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - intelligence < 0 || this.intelligence + intelligence > 20) {
+                    intelligence = in.nextInt();
+                }
                 this.intelligence += intelligence;
                 totalPoints -= intelligence;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.intelligence += intelligence;
                 totalPoints -= intelligence;
             }
+
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Wisdom points would you like to assign your character? ");
             int wisdom = in.nextInt();
-            if (totalPoints - wisdom < 0) {
-                System.out.println("You can't assign that many points!");
-                wisdom = in.nextInt();
+
+            if (totalPoints - wisdom < 0 || this.wisdom + wisdom > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - wisdom < 0 || this.wisdom + wisdom > 20) {
+                    wisdom = in.nextInt();
+                }
                 this.wisdom += wisdom;
                 totalPoints -= wisdom;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.wisdom += wisdom;
                 totalPoints -= wisdom;
             }
+
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Charisma points would you like to assign your character? ");
             int charisma = in.nextInt();
-            if (totalPoints - charisma < 0) {
-                System.out.println("You can't assign that many points!");
-                charisma = in.nextInt();
+
+            if (totalPoints - charisma < 0 || this.charisma + charisma > 20) {
+                System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
+                while (totalPoints - charisma < 0 || this.charisma + charisma > 20) {
+                    charisma = in.nextInt();
+                }
                 this.charisma += charisma;
                 totalPoints -= charisma;
             }
+
             else if (totalPoints == 0) {
                 break;
             }
+
             else {
                 this.charisma += charisma;
                 totalPoints -= charisma;
             }
+
         }
         stats.update("strength", (Integer)this.strength);
         stats.update("dexterity", (Integer)this.dexterity);
@@ -225,9 +266,13 @@ public class GameCharacter {
     public void addToInventory(Item item) {
         inventory.add(item);
     }
+
+    public int getHealth() {
+        return this.health;
+    }
     
     // Precondition: inventory size is not zero
-    public void removeFromInventory(String item) {
+    public void removeFromInventory(Item item) {
         for (int i = 0; i < inventory.size(); i++) {
             if (inventory.get(i).equals(item)) {
                 inventory.remove(item);
@@ -275,10 +320,10 @@ public class GameCharacter {
 
     public boolean skillCheck(String skillType, int threshold) {
         int advantage = stats.getAdvantage(skillType.toLowerCase());
-        int roll = (int) (Math.random() * 20) + 1;
+        int roll = (int) (Math.random() * 20) + 1; // rolls a random number 1-20 inclusive
         System.out.println();
         System.out.println("***" + skillType.toUpperCase() + " CHECK***");
-        System.out.println("You must roll a " + threshold + " to succeed. Your strength stat is " + this.strength + ", which gives you an advantage of " + advantage + ".");
+        System.out.println("You must roll a " + threshold + " to succeed. Your " + skillType + " stat is " + this.strength + ", which gives you an advantage of " + advantage + ".");
         System.out.println("You rolled: " + roll);
         System.out.println("With advantage: " + (roll + advantage));
         if ((roll + advantage) >= threshold) {
@@ -306,8 +351,15 @@ public class GameCharacter {
     }
 
     public void damage(int amount) {
+        for (Item item : equippedItems) {
+            if (item.getClass().toString().toLowerCase().equals("armor")) {
+                Armor armor = (Armor)item;
+                amount -= ((armor.getProtFactor() / 2) + 1);
+                System.out.println(this.name + "\'s equipped " + item.getName() + " blocked some damage!");
+            }
+        }
         this.health -= amount;
-        System.out.println("\n" + this.name + "took " + amount + " damage!\n");
+        System.out.println("\n" + this.name + " took " + amount + " damage!\n");
     }
 
     public void attack(GameCharacter other) {
@@ -320,5 +372,15 @@ public class GameCharacter {
             }
         }
        other.damage(damage);
+    }
+
+    public void addExp(int amount) {
+        System.out.println("\nGained " + amount + " experience points!\n");
+        if (this.totalExp > (level * 100)) {
+            level++;
+            System.out.println("You leveled up to level " + level + "!");
+            System.out.println("You have two additional ability points to assign!");
+            this.assignStats(2);
+        }
     }
 }

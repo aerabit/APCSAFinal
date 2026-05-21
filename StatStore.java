@@ -16,7 +16,7 @@ public class StatStore {
         return stats.get(name);
     }
 
-    public int getAdvantage(String name) {
+    public int getAdvantage(String name) { // higher stat = greater advantage during skill checks
         int val = getStat(name);
         if (val >= 10) {
             if (val >= 14) {
