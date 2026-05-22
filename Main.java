@@ -177,11 +177,13 @@ public class Main {
                                 System.out.println("You swing your fist, which collided with his face with immense force. He falls to the ground, clutching his nose.");
                                 player.attack(enemy);
                                 System.out.println("\"You f- you broke my nose, you swine!\" he screamed, as blood began dripping from his nose.");
+                                System.out.println("");
                                 player.addExp(50);
                             }
 
                             else { // if the punch failed
                                 System.out.println("You swing your fist, but you miss! Regaining his bearings, the man shoves you, hard.");
+                                System.out.println("");
                             }
                         }
 
@@ -218,7 +220,9 @@ public class Main {
                     boolean dodge = player.skillCheck("dexterity", 11);
 
                     if (dodge) { // if the dodge succeeds
-
+                        System.out.println("You duck out of the way as the man's fist flies through the air into nothing. The man loses his balance as you do so, falling to the ground with an \"oof!\".");
+                        System.out.println("The man lies on the ground for a moment, stunned from the fall. Before he could get back up, two town guards, who had been alerted by nearby civilians, rushed over, restraining the man.");
+                        System.out.println();
                     }
 
                     else { // if the dodge fails
@@ -266,6 +270,7 @@ public class Main {
             System.out.println("As you sit and eat, a woman from the town sits down next to you. She looks you up and down, sizing you up. \"You new around these parts?\" she asks. You nod. She looks at you for a moment longer, before a small smile appears on her face. \"Well, welcome to " + world.getSmallTown() + ". We don't get new faces around here much. What's your name?\"");
             System.out.println("\"My name is " + player.getName() + ". To be honest, I don't know how I got here. I don't really remember anything.\" you explain.");
             System.out.println("She purses her lips, seemingly thinking about something. \"That ain't unusual. This place can have... strange effects on the mind. Here, take this. Maybe it'll help jog your memory.\"");
+            Item potion1 = new Consumable("Unidentifiable Potion", "A purple serum of unclear origin. Keep out of reach of children.", "Intelligence", 1,5);
             System.out.println("She hands you a small bottle of a dull purple liquid. Seeing no reason not to, you put the bottle to your lips and drink the whole thing. The liquid tastes vaguely sour.");
             System.out.println("You feel your mind clearing up a bit. While you stil can't remember why you're here, your mind feels a bit sharper, and you can think more clearly.");
             
@@ -311,4 +316,5 @@ public class Main {
             return worldInitializer();
         }
     }
+
 }

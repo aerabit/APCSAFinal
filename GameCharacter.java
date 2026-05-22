@@ -383,4 +383,27 @@ public class GameCharacter {
             this.assignStats(2);
         }
     }
+
+    public void consume(Consumable c) {
+        if (inventory.indexOf(c) != -1) {
+
+        }
+        else {
+            System.out.println("That item is not in your inventory!");
+        }
+    }
+
+    public void gameLoop(String choice1, String choice2) {
+        Scanner in = new Scanner(System.in);
+        String input = in.nextLine();
+        if (input.toLowerCase().equals("inventory")) {
+            this.getInventory();
+        }
+        else if (input.toLowerCase().equals("equipped")) {
+            System.out.println("Equipped items: ");
+            for (Item i : equippedItems) {
+                System.out.println(i);
+            }
+        }
+    }
 }
