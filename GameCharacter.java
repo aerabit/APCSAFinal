@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.lang.Class;
 
 /** 
     GameCharacter - your in-game character, with stats, name, etc
@@ -14,7 +13,6 @@ import java.lang.Class;
 
 public class GameCharacter {
     private String name;
-    private String skill;
     private int health = 16;
     private int strength = 8;
     private int dexterity = 8;
@@ -24,27 +22,24 @@ public class GameCharacter {
     private int charisma = 8;
     private int totalExp;
     private int level;
-    private int numTurns;
     private ArrayList<Item> inventory = new ArrayList<Item>();
     private ArrayList<Item> equippedItems = new ArrayList<Item>();
     private ArrayList<Consumable> activeConsumables = new ArrayList<Consumable>();
     StatStore stats = new StatStore();
     
-    public GameCharacter(String name, String skill) {
+    public GameCharacter(String name) {
         this.name = name;
-        this.skill = skill;
         this.totalExp = 0;
         this.level = 1;
     }
     
     public GameCharacter() {
-        this("Unknown", "Shyness");
+        this("Unknown");
         this.level = 1;
     }
 
-    public GameCharacter(String name, String skill, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
+    public GameCharacter(String name, int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) {
         this.name = name;
-        this.skill = skill;
         this.strength = strength;
         this.dexterity = dexterity;
         this.constitution = constitution;
@@ -201,18 +196,15 @@ public class GameCharacter {
         health = constitution * 2;
         System.out.println("Stats saved.");
         System.out.println("Character information: \n" + this.toString());
+        in.close();
     }
     
     public String toString() {
-        return "Name: " + this.name + "\nSkill: " + this.skill + "\nStrength: " + this.strength + "\nDexterity: " + this.dexterity + "\nConstitution: " + this.constitution + "\nIntelligence: " + this.intelligence + "\nWisdom: " + this.wisdom + "\nCharisma: " + this.charisma;
+        return "Name: " + this.name + "\nStrength: " + this.strength + "\nDexterity: " + this.dexterity + "\nConstitution: " + this.constitution + "\nIntelligence: " + this.intelligence + "\nWisdom: " + this.wisdom + "\nCharisma: " + this.charisma;
     }
     
     public String getName() {
         return this.name;
-    }
-    
-    public String getSkill() {
-        return this.skill;
     }
     
     public int getStrength() {
@@ -237,10 +229,6 @@ public class GameCharacter {
     
     public void setName(String name) {
         this.name = name;
-    }
-    
-    public void setSkill(String skill) {
-        this.skill = skill;
     }
     
     public void setStrength(int strength) {
@@ -337,7 +325,6 @@ public class GameCharacter {
     }
 
     public void tick() {
-        numTurns++;
         for (int i = 0; i < activeConsumables.size(); i++) {
             Consumable c = activeConsumables.get(i);
             boolean expired = c.expire();
@@ -405,5 +392,6 @@ public class GameCharacter {
                 System.out.println(i);
             }
         }
+        in.close();
     }
 }

@@ -11,10 +11,8 @@ public class Main {
         Scanner input = new Scanner(System.in);
         System.out.println("Creating new character... \nEnter character name: ");
         String name = input.nextLine();
-        System.out.println("Enter character skill: ");
-        String skill = input.nextLine();
         
-        GameCharacter player = new GameCharacter(name, skill);
+        GameCharacter player = new GameCharacter(name);
         player.assignStats(27);
 
         GameWorld world = worldInitializer();
@@ -31,7 +29,7 @@ public class Main {
         System.out.println("You are " + player.getName() + ".");
         System.out.println("You have woken up in " + world.getSmallTown() + ", a small town in the lands of " + world.getRegionName() + ".");
         System.out.println();
-        System.out.println("You don't quite remember how you got here, or why. All you know is that you're good at " + player.getSkill() + ".");
+        System.out.println("You don't quite remember how you got here, or why. But, you have a feeling that you're here for a reason.");
         System.out.println("First things first: figuring out where to go from here. You woke up in some sort of bar or tavern, though nobody was inside.");
         System.out.println("You notice a map on one of the tables. You walk over and pick it up, inspecting it. On the map, the route from " + world.getSmallTown() + " to the capital city, " + world.getCapitalCity() + " was highlighted. \nThere was also a pile of coins on the table, which you decided could be useful, putting them in your pocket.");
         System.out.println("Do you follow the map and go to " + world.getCapitalCity() + ", or would you like to stay in " + world.getSmallTown() + " for the moment while you get your bearings? (type the city name): ");
@@ -154,7 +152,7 @@ public class Main {
             player.tick();
 
             if (fight.toLowerCase().equals("f")) { // if the player chooses to fight
-                GameCharacter enemy = new GameCharacter("Grunt", "Arrogance", 14, 8, 13, 6, 5, 5); // enemy is strong, but incredibly stupid
+                GameCharacter enemy = new GameCharacter("Grunt", 14, 8, 13, 6, 5, 5); // enemy is strong, but incredibly stupid
                 System.out.println("You decide that you can't stand by and watch this happen. You walk over, and shove the larger man. He looks at you, rage in his eyes.");
                 System.out.println("\"I would recommend you stay out of this, swine.\" he growled. He pulled his fist back, ready to hit you. Do you try to (B)lock the attack, or do you try to (D)odge?");
                 String move1 = input.nextLine();
