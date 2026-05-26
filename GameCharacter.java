@@ -57,7 +57,7 @@ public class GameCharacter {
             System.out.println("How many additional Strength points would you like to assign your character? ");
             int strength = in.nextInt();
 
-            if (totalPoints - strength < 0 || this.strength + strength > 20) {
+            if (totalPoints - strength < 0 || this.strength + strength > 20) { // if you attempt to use more points than you have TotalPoints, or if you try to assign a stat above 20, force the user to retry
                 System.out.println("You can't assign that many points! (no more than 20 ability points per stat allowed.");
                 while (totalPoints - strength < 0 || this.strength + strength > 20) {
                     strength = in.nextInt();
@@ -66,13 +66,13 @@ public class GameCharacter {
                 totalPoints -= strength;
             }
 
-            else if (totalPoints == 0) {
-                break;
-            }
-
             else {
                 this.strength += strength;
                 totalPoints -= strength;
+            }
+
+            if (totalPoints == 0) {
+                break;
             }
 
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
@@ -88,15 +88,15 @@ public class GameCharacter {
                 this.dexterity += dexterity;
                 totalPoints -= dexterity;
             }
-
-            else if (totalPoints == 0) {
-                break;
-            }
-
             else {
                 this.dexterity += dexterity;
                 totalPoints -= dexterity;
             }
+
+            if (totalPoints == 0) {
+                break;
+            }
+
 
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Constitution points would you like to assign your character? ");
@@ -111,14 +111,15 @@ public class GameCharacter {
                 totalPoints -= constitution;
             }
 
-            else if (totalPoints == 0) {
-                break;
-            }
-
             else {
                 this.constitution += constitution;
                 totalPoints -= constitution;
             }
+            
+            if (totalPoints == 0) {
+                break;
+            }
+
 
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Intelligence points would you like to assign your character? ");
@@ -133,14 +134,15 @@ public class GameCharacter {
                 totalPoints -= intelligence;
             }
 
-            else if (totalPoints == 0) {
-                break;
-            }
-
             else {
                 this.intelligence += intelligence;
                 totalPoints -= intelligence;
             }
+
+            if (totalPoints == 0) {
+                break;
+            }
+
 
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Wisdom points would you like to assign your character? ");
@@ -155,14 +157,15 @@ public class GameCharacter {
                 totalPoints -= wisdom;
             }
 
-            else if (totalPoints == 0) {
-                break;
-            }
-
             else {
                 this.wisdom += wisdom;
                 totalPoints -= wisdom;
             }
+
+            if (totalPoints == 0) {
+                break;
+            }
+
 
             System.out.println("You have " + totalPoints +  " points left to assign your character.");
             System.out.println("How many additional Charisma points would you like to assign your character? ");
@@ -186,6 +189,11 @@ public class GameCharacter {
                 totalPoints -= charisma;
             }
 
+            if (totalPoints == 0) {
+                break;
+            }
+
+
         }
         stats.update("strength", (Integer)this.strength);
         stats.update("dexterity", (Integer)this.dexterity);
@@ -196,7 +204,6 @@ public class GameCharacter {
         health = constitution * 2;
         System.out.println("Stats saved.");
         System.out.println("Character information: \n" + this.toString());
-        in.close();
     }
     
     public String toString() {
@@ -270,20 +277,40 @@ public class GameCharacter {
     }
     // Postcondition: given item no longer in inventory
     
-    // Precondition: the inventory actually has something in it.
     public void getInventory() {
-        System.out.println("\nCurrent inventory: ");
-        for (int i = 0; i < inventory.size(); i++) {
-            System.out.println("Inventory slot " + i + ": " + inventory.get(i));
+        if (inventory.size() == 0) {
+            System.out.println("There is nothing in your inventory.");
         }
+        else {
+            System.out.println("\nCurrent inventory: ");
+            for (int i = 0; i < inventory.size(); i++) { // loops thru inventory, printing out the toString() method of each item.
+                System.out.println("Inventory slot " + i + ": " + inventory.get(i));
+            }
         System.out.println();
+        }
+        
+    }
+
+    public ArrayList<Item> getInventoryArrayList() {
+        return inventory;
+    }
+
+    public void getEquippedItems() {
+        if (equippedItems.size() == 0) {
+            System.out.println("You have nothing equipped at the moment.");
+            return;
+        }
+        System.out.println("Equipped items: ");
+        for (Item i : equippedItems) {
+            System.out.println(i);
+        }
     }
 
     public void equip(Item item) {
-        if (inventory.indexOf(item) != -1) {
-            if (item.getClass().toString().equals("weapon")) {
-                for (Item i : equippedItems) {
-                    if (i.getClass().toString().toLowerCase().equals("weapon")) {     
+        if (inventory.indexOf(item) != -1) { // checks if the item is actually in the player's inventory
+            if (item.getClass().toString().equals("weapon")) { // checks if the item the player wants to equip is of the Weapon class
+                for (Item i : equippedItems) { 
+                    if (i.getClass().toString().toLowerCase().equals("weapon")) {  // checks if any of the other equipped items are of the Weapon class, and prevents the player from equipping a second one if so.   
                         System.out.println("You cannot have more than one weapon equipped!");
                         return;
                     }
@@ -307,7 +334,7 @@ public class GameCharacter {
     }
 
     public boolean skillCheck(String skillType, int threshold) {
-        int advantage = stats.getAdvantage(skillType.toLowerCase());
+        int advantage = stats.getAdvantage(skillType.toLowerCase()); // characters can have advantages during stat checks based on how high a particular stat is in value.
         int roll = (int) (Math.random() * 20) + 1; // rolls a random number 1-20 inclusive
         System.out.println();
         System.out.println("***" + skillType.toUpperCase() + " CHECK***");
@@ -324,7 +351,7 @@ public class GameCharacter {
         return false;
     }
 
-    public void tick() {
+    public void tick() { // runs after every decision, used to keep track of active consumables.
         for (int i = 0; i < activeConsumables.size(); i++) {
             Consumable c = activeConsumables.get(i);
             boolean expired = c.expire();
@@ -339,9 +366,9 @@ public class GameCharacter {
 
     public void damage(int amount) {
         for (Item item : equippedItems) {
-            if (item.getClass().toString().toLowerCase().equals("armor")) {
+            if (item.getClass().toString().toLowerCase().equals("armor")) { // if the player has armor equipped
                 Armor armor = (Armor)item;
-                amount -= ((armor.getProtFactor() / 2) + 1);
+                amount -= ((armor.getProtFactor() / 2) + 1); // damage is reduced by the armor's protection factor divided by two, plus one.
                 System.out.println(this.name + "\'s equipped " + item.getName() + " blocked some damage!");
             }
         }
@@ -362,8 +389,9 @@ public class GameCharacter {
     }
 
     public void addExp(int amount) {
+        this.totalExp += amount;
         System.out.println("\nGained " + amount + " experience points!\n");
-        if (this.totalExp > (level * 100)) {
+        if (this.totalExp > (this.level * 100)) { // the amount of total experience points needed for each level is the level # times 100. ex. level 5 needs 500 xp
             level++;
             System.out.println("You leveled up to level " + level + "!");
             System.out.println("You have two additional ability points to assign!");
@@ -372,26 +400,13 @@ public class GameCharacter {
     }
 
     public void consume(Consumable c) {
-        if (inventory.indexOf(c) != -1) {
-
+        if (inventory.indexOf(c) != -1) { // if the consumable item is in the player inventory
+            activeConsumables.add(c);
+            stats.update(c.getStat(), stats.getStat(c.getStat()) + c.getBoost()); // updates the appropriate stat to be boosted by the consumables boost value
+            System.out.println("Your " + c.getStat() + " was boosted by " + c.getBoost() + "! Your new " + c.getStat() + " value is " + stats.getStat(c.getStat()) + ". This effect lasts for " + c.getNumTurns() + " turns.");
         }
         else {
             System.out.println("That item is not in your inventory!");
         }
-    }
-
-    public void gameLoop(String choice1, String choice2) {
-        Scanner in = new Scanner(System.in);
-        String input = in.nextLine();
-        if (input.toLowerCase().equals("inventory")) {
-            this.getInventory();
-        }
-        else if (input.toLowerCase().equals("equipped")) {
-            System.out.println("Equipped items: ");
-            for (Item i : equippedItems) {
-                System.out.println(i);
-            }
-        }
-        in.close();
     }
 }

@@ -29,4 +29,9 @@ public class Consumable extends Item {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\n  Affected stat: " + this.stat + "\n  Stat boost: " + this.boost + "\n  Turn duration: " + this.numTurns;
+    }
 }

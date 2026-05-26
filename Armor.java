@@ -23,4 +23,9 @@ public class Armor extends Item {
     public void setProtFactor(int protFactor) {
         this.protFactor = protFactor;
     }
+
+    @Override 
+    public String toString() {
+        return super.toString() + "\n  Weight: " + this.weight + "\n  Protection factor: " + this.protFactor;
+    }
 }
